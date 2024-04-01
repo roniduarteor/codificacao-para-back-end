@@ -1,0 +1,63 @@
+{
+    "empresa": "Viação Rápida",
+    "linhas": [
+      {
+        "id": 1,
+        "nome": "Expresso Centro",
+        "horarios": [
+          {"saida": "06:00", "chegada": "06:30"},
+          {"saida": "07:00", "chegada": "07:30"}
+        ],
+        "paradas": [
+          {"id": 101, "nome": "Terminal Central", "latitude": -9.6658, "longitude": -35.7359, "ordem": 1},
+          {"id": 102, "nome": "Praça da Faculdade", "latitude": -9.6675, "longitude": -35.7310, "ordem": 2},
+          {"id": 103, "nome": "Estação Rodoviária", "latitude": -9.6692, "longitude": -35.7270, "ordem": 3},
+          {"id": 104, "nome": "Avenida Principal", "latitude": -9.6710, "longitude": -35.7225, "ordem": 4}
+        ]
+      },
+      {
+        "id": 2,
+        "nome": "Circular Praias",
+        "horarios": [
+          {"saida": "08:00", "chegada": "08:45"},
+          {"saida": "09:00", "chegada": "09:45"}
+        ],
+        "paradas": [
+          {"id": 201, "nome": "Terminal Jatiúca", "latitude": -9.6495, "longitude": -35.7081, "ordem": 1},
+          {"id": 202, "nome": "Parque Shopping", "latitude": -9.6506, "longitude": -35.7024, "ordem": 2},
+          {"id": 203, "nome": "Praia da Pajuçara", "latitude": -9.6575, "longitude": -35.7089, "ordem": 3},
+          {"id": 204, "nome": "Praia de Ponta Verde", "latitude": -9.6612, "longitude": -35.7042, "ordem": 4}
+        ]
+      }
+    ],
+    "onibus": [
+      {
+        "id": "A100",
+        "modelo": "Volvo B340M",
+        "linha": 1,
+        "status": "em operação",
+        "motorista": "José da Silva",
+        "ano_fabricacao": 2019,
+        "placa": "ABC-1234"
+      },
+      {
+        "id": "A101",
+        "modelo": "Scania K310",
+        "linha": 2,
+        "status": "em manutenção",
+        "motorista": null,
+        "ano_fabricacao": 2018,
+        "placa": "DEF-5678"
+      },
+      {
+        "id": "A102",
+        "modelo": "Mercedes-Benz O500U",
+        "linha": 1,
+        "status": "em operação",
+        "motorista": "Maria Oliveira",
+        "ano_fabricacao": 2020,
+        "placa": "GHI-9012"
+      }
+    ]
+  }
+  
