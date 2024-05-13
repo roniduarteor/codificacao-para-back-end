@@ -8,6 +8,7 @@ const PORT = 3333 // porta para saber onde buscar as informações do nosso serv
 
 const server = createServer((request, response)=>{ // não precisa mais usar o http. no inicio, já que a gente já está importando a função createServer diretamente do HTTP
     const {method, url} = request // aqui ele ta fazenod a requisição do método (GET, PUT, DELETE, etc...), e da URL
+    // request -> todo envio do cliente ao servidor
 
     // aqui estão listadas as rotas para criar nossa api
 
@@ -105,7 +106,7 @@ const server = createServer((request, response)=>{ // não precisa mais usar o h
                         response.end(JSON.stringify({message: 'Não é possível atualizar a receita'}))
                         return
                     }
-                    response.writeHead(500, {'Content-Type': 'application/json'})
+                    response.writeHead(200, {'Content-Type': 'application/json'})
                     response.end(JSON.stringify(receitaAtualizada))
                 })
         })
@@ -114,9 +115,40 @@ const server = createServer((request, response)=>{ // não precisa mais usar o h
     }else if(method === 'DELETE' && url.startsWith('/receitas/')){ // deletar
        // response.end(method) // só pra exibir o negócio certinho
         
+        const id = parseInt(url.split('/')[2])
+        lerDadosReceitas((err, receitas)=>{ // essa função faz o trabalho do fs.readFile
+            if(err){
+                response.writeHead(500, {'Content-Type': 'application/json'})
+                response.end(JSON.stringify({message: 'Erro ao ler dados da receita'}))
+                return // serve para parar a execução
+            }
+            const indexReceita = receitas.findIndex((receita)=> receita.id === id)
+            if(indexReceita === -1){
+                response.writeHead(404, {'Content-Type': 'application/json'})
+                response.end(JSON.stringify({message: 'Receita não encontrada'}))
+                return
+            }else{
+                receitas.splice(indexReceita, 1)
+
+                fs.writeFile("receitas.json", JSON.stringify(receitas, null, 2), (err)=>{ // serve para escrever as informações no aquivo.json
+                    // 1º onde vai escrever, 2º como vai escrever, 3º se não conseguir escrever
+                    if(err){
+                    response.writeHead(500, {'Content-Type': 'application/json'})
+                    response.end(JSON.stringify({message: 'Erro ao deletar receita no banco de dados'}))
+                    return
+                    }
+                    response.writeHead(200, {'Content-Type': 'application/json'})
+                    response.end(JSON.stringify({message: 'Receita excluída!'}))
+                })
+            }
+        })
+
+
+        
+
     }else if(method === 'GET' && url.startsWith('/receitas/')){ // listar específico
        // response.end(method) // só pra exibir o negócio certinho
-        
+
     }else if(method === 'GET' && url.startsWith('/categorias')){
         //localhost:3333/categorias
        // response.end(method) // só pra exibir o negócio certinho
@@ -126,9 +158,32 @@ const server = createServer((request, response)=>{ // não precisa mais usar o h
         // %20 significa espaço
         // response.end(method) // só pra exibir o negócio certinho
 
+        const urlParam = new URLSearchParams(url.split('?')[1]) // aqui pra dividir a url e pegar as informações separando pela interrogação
+        const termo = urlParam.get('termo') // vai pegar o valor contido no termo =)
+
+        lerDadosReceitas((err, receitas)=>{
+            if(err){
+                response.writeHead(500, {'Content-Type': 'application/json'})
+                response.end(JSON.stringify({message: "Erro ao ler dados da receita"}))
+                return
+            }
+
+            const resultadoBusca = receitas.filter((receita)=> receita.nome.includes(termo) || receita.categoria.includes(termo) || receita.ingredientes.some((ingrediente)=> ingrediente.includes(termo)))
+
+            if(resultadoBusca.length === 0){
+                response.writeHead(404, {'Content-Type': 'application/json'})
+                response.end(JSON.stringify({message: `Não foi encontrada receita com o termo ${termo}`}))
+                return
+            }
+            response.writeHead(200, {'Content-Type': 'application/json'})
+            response.end(JSON.stringify(resultadoBusca))
+        })
+
     }else if(method === 'GET' && url.startsWith('/ingredientes')){
-        //localhost:3333/busca?termo=cebola
+        //localhost:3333/ingredientes/pesquisa=cebola
         // response.end(method) // só pra exibir o negócio certinho
+
+        
 
     }else{ // caso a rota não seja encontrada!
         response.writeHead(404, {'Content-Type': 'application/json'})

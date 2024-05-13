@@ -1,0 +1,13 @@
+[
+  {
+    "usuario": {
+      "nomeUsuario": "roni_duarteor",
+      "email": "ronaldoduarteoliveirarodrigues@gmail.com",
+      "senha": "123456",
+      "dataDeRegistro": "13/05/2024"
+    },
+    "nome": "Ronaldo Duarte",
+    "bio": "biografia...",
+    "id": 1
+  }
+]
