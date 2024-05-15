@@ -1,0 +1,14 @@
+[
+  {
+    "nomeUsuario": "roni_duarteor",
+    "email": "ronaldo@email.com",
+    "senha": "123456",
+    "dataDeRegistro": "15/05/2024",
+    "perfil": {
+      "nome": "ronaldo",
+      "bio": "bio........."
+    },
+    "id": 1,
+    "imagem": "img/ff28c63ecd42c0ec4c73d0800.png"
+  }
+]
